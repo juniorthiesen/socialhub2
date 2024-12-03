@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
-import { testOpenAIKey } from "@/lib/openai/sentiment";
-import { useInstagramStore } from "@/lib/instagram/store";
+import { useState } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Loader2 } from 'lucide-react';
+import { testOpenAIKey } from '@/lib/openai/sentiment';
+import { useInstagramStore } from '@/lib/instagram/store';
 
 export function OpenAISettings() {
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -27,16 +27,18 @@ export function OpenAISettings() {
 
       // Testa a chave da API
       const isValid = await testOpenAIKey(apiKey);
-      
+
       if (isValid) {
         setOpenAIKey(apiKey);
         setSuccess(true);
       } else {
-        setError("Invalid OpenAI API key");
+        setError('Invalid OpenAI API key');
       }
     } catch (error) {
-      console.error("Error testing OpenAI key:", error);
-      setError(error instanceof Error ? error.message : "Failed to validate API key");
+      console.error('Error testing OpenAI key:', error);
+      setError(
+        error instanceof Error ? error.message : 'Failed to validate API key'
+      );
     } finally {
       setLoading(false);
     }

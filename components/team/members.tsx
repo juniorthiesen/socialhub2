@@ -1,34 +1,28 @@
-"use client";
+'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { MoreVertical } from 'lucide-react';
 
 export function TeamMembers() {
   const members = [
     {
       id: 1,
-      name: "Sarah Wilson",
-      email: "sarah@example.com",
-      role: "Admin",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      status: "Active",
+      name: 'Sarah Wilson',
+      email: 'sarah@example.com',
+      role: 'Admin',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      status: 'Active',
     },
     {
       id: 2,
-      name: "Michael Chen",
-      email: "michael@example.com",
-      role: "Manager",
-      avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36",
-      status: "Active",
+      name: 'Michael Chen',
+      email: 'michael@example.com',
+      role: 'Manager',
+      avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36',
+      status: 'Active',
     },
   ];
 
@@ -48,7 +42,9 @@ export function TeamMembers() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Badge variant={member.status === "Active" ? "default" : "secondary"}>
+              <Badge
+                variant={member.status === 'Active' ? 'default' : 'secondary'}
+              >
                 {member.role}
               </Badge>
               <Button variant="ghost" size="icon">

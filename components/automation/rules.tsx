@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Card,
@@ -6,16 +6,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { Zap, Trash2, MessageSquare, Link as LinkIcon } from "lucide-react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { CreateAutomationDialog } from "./create-automation-dialog";
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { Zap, Trash2, MessageSquare, Link as LinkIcon } from 'lucide-react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { CreateAutomationDialog } from './create-automation-dialog';
 
 export function AutomationRules() {
-  const { automationRules, updateAutomationRule, deleteAutomationRule } = useInstagramStore();
+  const { automationRules, updateAutomationRule, deleteAutomationRule } =
+    useInstagramStore();
 
   const handleToggleActive = (ruleId: string, isActive: boolean) => {
     updateAutomationRule(ruleId, { isActive });
@@ -29,7 +30,8 @@ export function AutomationRules() {
             <Zap className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No Automation Rules</h3>
             <p className="text-muted-foreground mb-4">
-              Create your first automation rule to start engaging with your audience automatically.
+              Create your first automation rule to start engaging with your
+              audience automatically.
             </p>
           </CardContent>
         </Card>
@@ -48,7 +50,9 @@ export function AutomationRules() {
               </div>
               <Switch
                 checked={rule.isActive}
-                onCheckedChange={(checked) => handleToggleActive(rule.id, checked)}
+                onCheckedChange={(checked) =>
+                  handleToggleActive(rule.id, checked)
+                }
               />
             </CardHeader>
             <CardContent className="space-y-4">
@@ -58,17 +62,21 @@ export function AutomationRules() {
                     <MessageSquare className="h-4 w-4 mt-1 text-muted-foreground" />
                     <div>
                       <p className="text-sm font-medium">Auto Reply</p>
-                      <p className="text-sm text-muted-foreground">{rule.response}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {rule.response}
+                      </p>
                     </div>
                   </div>
                 )}
-                
+
                 {rule.sendDm && rule.dmMessage && (
                   <div className="flex items-start gap-2">
                     <MessageSquare className="h-4 w-4 mt-1 text-muted-foreground" />
                     <div>
                       <p className="text-sm font-medium">DM Message</p>
-                      <p className="text-sm text-muted-foreground">{rule.dmMessage}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {rule.dmMessage}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -78,7 +86,9 @@ export function AutomationRules() {
                     <LinkIcon className="h-4 w-4 mt-1 text-muted-foreground" />
                     <div>
                       <p className="text-sm font-medium">Action URL</p>
-                      <p className="text-sm text-muted-foreground">{rule.actionUrl}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {rule.actionUrl}
+                      </p>
                     </div>
                   </div>
                 )}

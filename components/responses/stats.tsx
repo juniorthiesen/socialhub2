@@ -1,38 +1,33 @@
-"use client";
+'use client';
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { MessageSquare, Zap, Clock, ThumbsUp } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MessageSquare, Zap, Clock, ThumbsUp } from 'lucide-react';
 
 export function ResponseStats() {
   const stats = [
     {
-      title: "Total Templates",
-      value: "12",
+      title: 'Total Templates',
+      value: '12',
       icon: MessageSquare,
-      description: "Active templates",
+      description: 'Active templates',
     },
     {
-      title: "Auto-Responses",
-      value: "2.4k",
+      title: 'Auto-Responses',
+      value: '2.4k',
       icon: Zap,
-      description: "This month",
+      description: 'This month',
     },
     {
-      title: "Response Rate",
-      value: "98%",
+      title: 'Response Rate',
+      value: '98%',
       icon: ThumbsUp,
-      description: "Engagement rate",
+      description: 'Engagement rate',
     },
     {
-      title: "Avg. Response Time",
-      value: "30s",
+      title: 'Avg. Response Time',
+      value: '30s',
       icon: Clock,
-      description: "Response speed",
+      description: 'Response speed',
     },
   ];
 
@@ -41,16 +36,12 @@ export function ResponseStats() {
       {stats.map((stat) => (
         <Card key={stat.title}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {stat.title}
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
             <stat.icon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stat.value}</div>
-            <p className="text-xs text-muted-foreground">
-              {stat.description}
-            </p>
+            <p className="text-xs text-muted-foreground">{stat.description}</p>
           </CardContent>
         </Card>
       ))}

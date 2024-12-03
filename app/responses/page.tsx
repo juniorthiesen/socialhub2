@@ -1,8 +1,7 @@
-"use client";
+'use client';
 
-import { Card } from "@/components/ui/card";
-import { ResponseTemplates } from "@/components/responses/templates";
-import { ResponseStats } from "@/components/responses/stats";
+import { ResponseTemplates } from '@/components/responses/templates';
+import { ResponseStats } from '@/components/responses/stats';
 
 export default function ResponsesPage() {
   return (

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Card,
@@ -6,20 +6,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { InstagramAPI } from "@/lib/instagram/api";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { Loader2 } from "lucide-react";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { InstagramAPI } from '@/lib/instagram/api';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { Loader2 } from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 type FacebookPage = {
   id: string;
@@ -35,19 +35,21 @@ type FacebookPage = {
 
 export function AuthSettings() {
   const { initializeAPI, fetchAccount } = useInstagramStore();
-  const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [connectedAccounts, setConnectedAccounts] = useState<FacebookPage[]>([]);
-  const [selectedAccountId, setSelectedAccountId] = useState<string>("");
+  const [connectedAccounts, setConnectedAccounts] = useState<FacebookPage[]>(
+    []
+  );
+  const [selectedAccountId, setSelectedAccountId] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   const handleConnect = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       if (!accessToken) {
-        throw new Error("Please enter your access token");
+        throw new Error('Please enter your access token');
       }
 
       // Busca as contas conectadas primeiro
@@ -55,23 +57,31 @@ export function AuthSettings() {
       console.log('Connected accounts:', response);
 
       if (!response.data || response.data.length === 0) {
-        throw new Error("No Facebook pages found. Please make sure you have at least one Facebook page.");
+        throw new Error(
+          'No Facebook pages found. Please make sure you have at least one Facebook page.'
+        );
       }
 
       // Filtra apenas as contas que têm Instagram Business conectado
-      const businessAccounts = response.data.filter(page => page.instagram_business_account);
+      const businessAccounts = response.data.filter(
+        (page) => page.instagram_business_account
+      );
       if (businessAccounts.length === 0) {
-        throw new Error("No Instagram Business accounts found. Please make sure you have connected your Instagram account to your Facebook page.");
+        throw new Error(
+          'No Instagram Business accounts found. Please make sure you have connected your Instagram account to your Facebook page.'
+        );
       }
 
       setConnectedAccounts(businessAccounts);
       setSelectedAccountId(businessAccounts[0].instagram_business_account!.id);
-      
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'An unexpected error occurred. Please try again.';
       setError(errorMessage);
       console.error('Connection error:', errorMessage);
-      
+
       // Limpa as credenciais em caso de erro
       localStorage.removeItem('instagram_token');
       localStorage.removeItem('instagram_user_id');
@@ -83,32 +93,42 @@ export function AuthSettings() {
   const handleAccountSelect = async (accountId: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const selectedAccount = connectedAccounts.find(
-        page => page.instagram_business_account?.id === accountId
+        (page) => page.instagram_business_account?.id === accountId
       );
 
       if (!selectedAccount || !selectedAccount.instagram_business_account) {
-        throw new Error("Selected account not found");
+        throw new Error('Selected account not found');
       }
 
       // Salva no localStorage
       localStorage.setItem('instagram_token', accessToken);
-      localStorage.setItem('instagram_user_id', selectedAccount.instagram_business_account.id);
+      localStorage.setItem(
+        'instagram_user_id',
+        selectedAccount.instagram_business_account.id
+      );
 
       // Inicializa a API
-      const success = await initializeAPI(accessToken, selectedAccount.instagram_business_account.id);
-      
+      const success = await initializeAPI(
+        accessToken,
+        selectedAccount.instagram_business_account.id
+      );
+
       if (!success) {
-        throw new Error("Failed to initialize the API. Please check your token and try again.");
+        throw new Error(
+          'Failed to initialize the API. Please check your token and try again.'
+        );
       }
 
       await fetchAccount();
-      setAccessToken("");
-      
+      setAccessToken('');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'An unexpected error occurred. Please try again.';
       setError(errorMessage);
       console.error('Account selection error:', errorMessage);
     } finally {
@@ -120,8 +140,8 @@ export function AuthSettings() {
     localStorage.removeItem('instagram_token');
     localStorage.removeItem('instagram_user_id');
     setConnectedAccounts([]);
-    setSelectedAccountId("");
-    setAccessToken("");
+    setSelectedAccountId('');
+    setAccessToken('');
     window.location.reload();
   };
 
@@ -143,11 +163,7 @@ export function AuthSettings() {
           />
         </div>
 
-        {error && (
-          <div className="text-sm text-red-500">
-            {error}
-          </div>
-        )}
+        {error && <div className="text-sm text-red-500">{error}</div>}
 
         {connectedAccounts.length > 0 ? (
           <div className="space-y-4">
@@ -162,7 +178,7 @@ export function AuthSettings() {
                 {connectedAccounts.map((page) => (
                   <SelectItem
                     key={page.instagram_business_account?.id}
-                    value={page.instagram_business_account?.id || ""}
+                    value={page.instagram_business_account?.id || ''}
                   >
                     {page.name} ({page.instagram_business_account?.username})
                   </SelectItem>
@@ -192,7 +208,7 @@ export function AuthSettings() {
                 Connecting...
               </>
             ) : (
-              "Connect Account"
+              'Connect Account'
             )}
           </Button>
         )}

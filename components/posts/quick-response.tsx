@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Sparkles } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 
 interface QuickResponseProps {
   onSelect: (template: string) => void;
 }
 
 const templates = [
-  "Thank you for your comment! 🙏",
-  "We appreciate your feedback! 💫",
-  "Thanks for sharing your thoughts! 🌟",
-  "Great point! Thanks for engaging with us! 🎉",
+  'Thank you for your comment! 🙏',
+  'We appreciate your feedback! 💫',
+  'Thanks for sharing your thoughts! 🌟',
+  'Great point! Thanks for engaging with us! 🎉',
   "We're glad you enjoyed it! ❤️",
 ];
 

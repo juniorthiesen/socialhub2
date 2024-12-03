@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Sidebar from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';

@@ -1,13 +1,14 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
-import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { InstagramAPI } from "@/lib/instagram/api";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { InstagramAPI } from '@/lib/instagram/api';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface InstagramAccount {
   id: string;
@@ -17,7 +18,7 @@ interface InstagramAccount {
 
 export default function SettingsPage() {
   const router = useRouter();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState<InstagramAccount[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -47,24 +48,31 @@ export default function SettingsPage() {
       setLoading(true);
       setError(null);
       const response = await InstagramAPI.getConnectedAccounts(token);
-      
+
       if (!response.data || response.data.length === 0) {
-        setError('No Instagram business accounts found. Please make sure you have a Facebook page with a connected Instagram business account.');
+        setError(
+          'No Instagram business accounts found. Please make sure you have a Facebook page with a connected Instagram business account.'
+        );
         return;
       }
 
       const instagramAccounts = response.data
-        .filter(page => page.instagram_business_account)
-        .map(page => ({
+        .filter((page: any) => page.instagram_business_account)
+        .map((page: any) => ({
           id: page.instagram_business_account.id,
           username: page.instagram_business_account.username,
-          profile_picture_url: page.instagram_business_account.profile_picture_url
+          profile_picture_url:
+            page.instagram_business_account.profile_picture_url,
         }));
 
       setAccounts(instagramAccounts);
     } catch (error) {
       console.error('Error loading accounts:', error);
-      setError(error instanceof Error ? error.message : 'Failed to load connected accounts');
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Failed to load connected accounts'
+      );
     } finally {
       setLoading(false);
     }
@@ -77,10 +85,10 @@ export default function SettingsPage() {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Salva o token
       setAccessToken(token);
-      
+
       // Carrega as contas conectadas
       await loadConnectedAccounts(token);
     } catch (error) {
@@ -99,25 +107,27 @@ export default function SettingsPage() {
 
       console.log('Initializing API with:', {
         token,
-        userId: account.id
+        userId: account.id,
       });
 
       const success = await initializeAPI(token, account.id);
-      
+
       if (success) {
         // Verifica se o userId foi salvo corretamente
         const savedUserId = localStorage.getItem('instagram_user_id');
         console.log('Saved user ID:', savedUserId);
 
         // Aguarda um momento para garantir que o estado foi atualizado
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         router.push('/');
       } else {
         setError('Failed to initialize the API. Please try again.');
       }
     } catch (error) {
       console.error('Error selecting account:', error);
-      setError(error instanceof Error ? error.message : 'Failed to select account');
+      setError(
+        error instanceof Error ? error.message : 'Failed to select account'
+      );
     } finally {
       setLoading(false);
     }
@@ -149,7 +159,7 @@ export default function SettingsPage() {
                 disabled={loading}
               />
               <p className="text-xs text-muted-foreground">
-                You can get your access token from the{" "}
+                You can get your access token from the{' '}
                 <a
                   href="https://developers.facebook.com/tools/explorer/"
                   target="_blank"
@@ -169,16 +179,12 @@ export default function SettingsPage() {
                   Connecting...
                 </>
               ) : (
-                "Connect Account"
+                'Connect Account'
               )}
             </Button>
           </form>
 
-          {error && (
-            <div className="text-sm text-red-500">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-sm text-red-500">{error}</div>}
 
           {accounts.length > 0 && (
             <div className="space-y-4">

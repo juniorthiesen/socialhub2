@@ -1,17 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { InstagramPost } from "@/lib/instagram/types";
-import { Card } from "@/components/ui/card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { Search, MessageSquare, Heart, Calendar, Loader2 } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { InstagramPost } from '@/lib/instagram/types';
+import { Card } from '@/components/ui/card';
+import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Search, MessageSquare, Heart, Calendar, Loader2 } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface PostsListProps {
   selectedPostId: string | null;
@@ -22,11 +21,11 @@ const POSTS_PER_PAGE = 10;
 
 export function PostsList({ selectedPostId, onPostSelect }: PostsListProps) {
   const { posts, isLoading, error, fetchPosts } = useInstagramStore();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [displayedPosts, setDisplayedPosts] = useState<InstagramPost[]>([]);
-  const [after, setAfter] = useState<string | undefined>();
+  const [after] = useState<string | undefined>();
   const observer = useRef<IntersectionObserver>();
   const lastPostRef = useCallback(
     (node: HTMLDivElement) => {
@@ -57,11 +56,14 @@ export function PostsList({ selectedPostId, onPostSelect }: PostsListProps) {
   useEffect(() => {
     // Garante que posts é um array
     const postsArray = Array.isArray(posts) ? posts : [];
-    
-    const filteredPosts = postsArray.filter(post =>
-      post?.caption?.toLowerCase().includes(searchQuery.toLowerCase() || '') || false
+
+    const filteredPosts = postsArray.filter(
+      (post) =>
+        post?.caption
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase() || '') || false
     );
-    
+
     const paginatedPosts = filteredPosts.slice(0, page * POSTS_PER_PAGE);
     setDisplayedPosts(paginatedPosts);
     setHasMore(paginatedPosts.length < filteredPosts.length);
@@ -71,8 +73,8 @@ export function PostsList({ selectedPostId, onPostSelect }: PostsListProps) {
     return (
       <Card className="p-6 text-center text-red-500">
         <p>Error loading posts: {error}</p>
-        <button 
-          onClick={() => fetchPosts()} 
+        <button
+          onClick={() => fetchPosts()}
           className="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
         >
           Try Again
@@ -121,8 +123,8 @@ export function PostsList({ selectedPostId, onPostSelect }: PostsListProps) {
             key={post.id}
             ref={index === displayedPosts.length - 1 ? lastPostRef : null}
             className={cn(
-              "p-4 cursor-pointer transition-colors hover:bg-accent",
-              selectedPostId === post.id && "bg-accent"
+              'p-4 cursor-pointer transition-colors hover:bg-accent',
+              selectedPostId === post.id && 'bg-accent'
             )}
             onClick={() => onPostSelect(post.id)}
           >
@@ -139,7 +141,7 @@ export function PostsList({ selectedPostId, onPostSelect }: PostsListProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm line-clamp-2 mb-2">
-                  {post.caption || "No caption"}
+                  {post.caption || 'No caption'}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">

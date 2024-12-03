@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { MessageSquare, RefreshCw } from "lucide-react";
-import { useInstagramStore } from "@/lib/instagram/store";
+import { Button } from '@/components/ui/button';
+import { RefreshCw } from 'lucide-react';
+import { useInstagramStore } from '@/lib/instagram/store';
 
 export function CommentsHeader() {
   const { fetchPosts } = useInstagramStore();
@@ -15,7 +15,7 @@ export function CommentsHeader() {
           Manage and respond to comments across all your posts
         </p>
       </div>
-      <Button 
+      <Button
         variant="outline"
         onClick={() => fetchPosts()}
         className="flex items-center gap-2"

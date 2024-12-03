@@ -1,21 +1,22 @@
-"use client";
+'use client';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Search } from "lucide-react";
+} from '@/components/ui/select';
+import { Search } from 'lucide-react';
 
-export type SortOption = "newest" | "oldest" | "most_likes" | "most_replies";
-export type StatusFilter = "all" | "hidden" | "visible";
+export type SortOption = 'newest' | 'oldest' | 'most_likes' | 'most_replies';
+export type StatusFilter = 'all' | 'hidden' | 'visible';
 
 interface CommentFiltersProps {
   sortBy: SortOption;
   onSortChange: (value: SortOption) => void;
+
   filterStatus: StatusFilter;
   onStatusChange: (value: StatusFilter) => void;
   searchQuery: string;

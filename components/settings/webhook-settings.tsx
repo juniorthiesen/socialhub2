@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Card,
@@ -6,19 +6,19 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Webhook, Bell, Copy } from "lucide-react";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Webhook, Bell, Copy } from 'lucide-react';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import { config } from '@/lib/instagram/config';
 
 export function WebhookSettings() {
-  const [webhookUrl, setWebhookUrl] = useState("");
-  const [verifyToken, setVerifyToken] = useState(config.webhookToken || "");
+  const [webhookUrl, setWebhookUrl] = useState('');
+  const [verifyToken, setVerifyToken] = useState(config.webhookToken || '');
   const { toast } = useToast();
   const webhookEndpoint = `${config.appUrl}/api/webhook`;
 
@@ -42,15 +42,15 @@ export function WebhookSettings() {
       }
 
       toast({
-        title: "Success",
-        description: "Successfully subscribed to Instagram webhooks",
+        title: 'Success',
+        description: 'Successfully subscribed to Instagram webhooks',
       });
     } catch (error) {
       console.error('Error subscribing to webhooks:', error);
       toast({
-        title: "Error",
-        description: "Failed to subscribe to webhooks",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to subscribe to webhooks',
+        variant: 'destructive',
       });
     }
   };
@@ -67,23 +67,21 @@ export function WebhookSettings() {
         <Alert>
           <Bell className="h-4 w-4" />
           <AlertDescription>
-            Configure these webhook settings in your Facebook App Dashboard and use the values below
+            Configure these webhook settings in your Facebook App Dashboard and
+            use the values below
           </AlertDescription>
         </Alert>
 
         <div className="space-y-2">
           <Label>Callback URL</Label>
           <div className="flex gap-2">
-            <Input
-              value={webhookEndpoint}
-              readOnly
-            />
+            <Input value={webhookEndpoint} readOnly />
             <Button
               variant="outline"
               onClick={() => {
                 navigator.clipboard.writeText(webhookEndpoint);
                 toast({
-                  description: "Callback URL copied to clipboard",
+                  description: 'Callback URL copied to clipboard',
                 });
               }}
             >
@@ -103,7 +101,8 @@ export function WebhookSettings() {
             />
           </div>
           <p className="text-sm text-muted-foreground">
-            This token should match the INSTAGRAM_WEBHOOK_VERIFY_TOKEN in your environment variables
+            This token should match the INSTAGRAM_WEBHOOK_VERIFY_TOKEN in your
+            environment variables
           </p>
         </div>
 

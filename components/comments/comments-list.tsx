@@ -1,25 +1,33 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { Comment, CommentSortType, InstagramPost } from "@/lib/instagram/types";
-import { MessageSquare, Heart, Send, Reply, Loader2, Search, EyeOff, Trash2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
-import { QuickResponse } from "./quick-response";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { Comment, CommentSortType, InstagramPost } from '@/lib/instagram/types';
+import {
+  MessageSquare,
+  Heart,
+  Send,
+  Loader2,
+  Search,
+  EyeOff,
+  Trash2,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { format } from 'date-fns';
+import { QuickResponse } from './quick-response';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import Image from 'next/image';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 const COMMENTS_PER_PAGE = 10;
 
@@ -33,8 +41,8 @@ export function CommentsList() {
   const [comments, setComments] = useState<CommentWithPost[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<CommentSortType>("date");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<CommentSortType>('date');
   const { toast } = useToast();
   const [replyText, setReplyText] = useState<Record<string, string>>({});
   const observer = useRef<IntersectionObserver>();
@@ -63,41 +71,49 @@ export function CommentsList() {
       for (const post of posts) {
         const response = await api?.getComments(post.id);
         if (response?.data) {
-          const commentsWithPost = response.data.map(comment => ({
+          const commentsWithPost = response.data.map((comment) => ({
             ...comment,
-            post
+            post,
           }));
           newComments.push(...commentsWithPost);
         }
       }
-      
+
       const sortedComments = sortComments(newComments, sortBy);
-      const paginatedComments = sortedComments.slice(0, page * COMMENTS_PER_PAGE);
-      
+      const paginatedComments = sortedComments.slice(
+        0,
+        page * COMMENTS_PER_PAGE
+      );
+
       setComments(paginatedComments);
       setHasMore(paginatedComments.length < sortedComments.length);
     } catch (error) {
-      console.error("Error fetching comments:", error);
+      console.error('Error fetching comments:', error);
       toast({
-        title: "Error",
-        description: "Failed to fetch comments",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to fetch comments',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const sortComments = (commentsToSort: CommentWithPost[], sortType: CommentSortType) => {
+  const sortComments = (
+    commentsToSort: CommentWithPost[],
+    sortType: CommentSortType
+  ) => {
     return [...commentsToSort].sort((a, b) => {
       switch (sortType) {
-        case "likes":
+        case 'likes':
           return b.like_count - a.like_count;
-        case "replies":
+        case 'replies':
           return (b.replies?.data.length || 0) - (a.replies?.data.length || 0);
-        case "date":
+        case 'date':
         default:
-          return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+          return (
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
       }
     });
   };
@@ -108,17 +124,17 @@ export function CommentsList() {
     try {
       await api?.replyToComment(commentId, replyText[commentId]);
       toast({
-        title: "Success",
-        description: "Reply posted successfully",
+        title: 'Success',
+        description: 'Reply posted successfully',
       });
-      setReplyText((prev) => ({ ...prev, [commentId]: "" }));
+      setReplyText((prev) => ({ ...prev, [commentId]: '' }));
       fetchComments();
     } catch (error) {
-      console.error("Error replying to comment:", error);
+      console.error('Error replying to comment:', error);
       toast({
-        title: "Error",
-        description: "Failed to post reply",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to post reply',
+        variant: 'destructive',
       });
     }
   };
@@ -127,16 +143,16 @@ export function CommentsList() {
     try {
       await api?.hideComment(commentId);
       toast({
-        title: "Success",
-        description: "Comment hidden successfully",
+        title: 'Success',
+        description: 'Comment hidden successfully',
       });
       fetchComments();
     } catch (error) {
-      console.error("Error hiding comment:", error);
+      console.error('Error hiding comment:', error);
       toast({
-        title: "Error",
-        description: "Failed to hide comment",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to hide comment',
+        variant: 'destructive',
       });
     }
   };
@@ -145,16 +161,16 @@ export function CommentsList() {
     try {
       await api?.deleteComment(commentId);
       toast({
-        title: "Success",
-        description: "Comment deleted successfully",
+        title: 'Success',
+        description: 'Comment deleted successfully',
       });
       fetchComments();
     } catch (error) {
-      console.error("Error deleting comment:", error);
+      console.error('Error deleting comment:', error);
       toast({
-        title: "Error",
-        description: "Failed to delete comment",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to delete comment',
+        variant: 'destructive',
       });
     }
   };
@@ -183,7 +199,10 @@ export function CommentsList() {
             className="pl-10"
           />
         </div>
-        <Select value={sortBy} onValueChange={(value: CommentSortType) => setSortBy(value)}>
+        <Select
+          value={sortBy}
+          onValueChange={(value: CommentSortType) => setSortBy(value)}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
@@ -222,7 +241,7 @@ export function CommentsList() {
                         {comment.post.caption || 'No caption'}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Posted {format(new Date(comment.post.timestamp), "PPp")}
+                        Posted {format(new Date(comment.post.timestamp), 'PPp')}
                       </p>
                     </div>
                   </div>
@@ -232,16 +251,22 @@ export function CommentsList() {
                   <div>
                     <p className="font-medium">@{comment.username}</p>
                     <p className="text-sm text-muted-foreground">
-                      {format(new Date(comment.timestamp), "PPp")}
+                      {format(new Date(comment.timestamp), 'PPp')}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       <Heart className="h-3 w-3" />
                       {comment.like_count}
                     </Badge>
                     {comment.replies && (
-                      <Badge variant="secondary" className="flex items-center gap-1">
+                      <Badge
+                        variant="secondary"
+                        className="flex items-center gap-1"
+                      >
                         <MessageSquare className="h-3 w-3" />
                         {comment.replies.data.length}
                       </Badge>
@@ -258,7 +283,7 @@ export function CommentsList() {
                   <div className="flex items-center gap-2">
                     <Input
                       placeholder="Write a reply..."
-                      value={replyText[comment.id] || ""}
+                      value={replyText[comment.id] || ''}
                       onChange={(e) =>
                         setReplyText((prev) => ({
                           ...prev,
@@ -291,7 +316,7 @@ export function CommentsList() {
                       onClick={() => handleHideComment(comment.id)}
                     >
                       <EyeOff className="h-4 w-4 mr-2" />
-                      {comment.hidden ? "Unhide" : "Hide"}
+                      {comment.hidden ? 'Unhide' : 'Hide'}
                     </Button>
                     <Button
                       variant="destructive"
@@ -312,7 +337,7 @@ export function CommentsList() {
                           <div>
                             <p className="font-medium">@{reply.username}</p>
                             <p className="text-sm text-muted-foreground">
-                              {format(new Date(reply.timestamp), "PPp")}
+                              {format(new Date(reply.timestamp), 'PPp')}
                             </p>
                           </div>
                           <Badge

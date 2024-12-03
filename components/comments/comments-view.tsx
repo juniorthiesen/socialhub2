@@ -6,7 +6,6 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useInstagramStore } from '@/lib/instagram/store';
 import { SentimentAnalysis } from '@/components/sentiment-analysis';
-import { Loader2 } from 'lucide-react';
 
 interface CommentsViewProps {
   postId: string;

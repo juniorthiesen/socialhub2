@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import { DashboardHeader } from '@/components/dashboard-header';
 import { PostsGrid } from '@/components/posts-grid';
 import { EngagementStats } from '@/components/engagement-stats';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PostFilters } from "@/components/post-filters";
+import { PostFilters } from '@/components/post-filters';
 import { AccountSelector } from '@/components/account-selector';
 import { ContentPerformance } from '@/components/content-performance';
 import { BestPostingTimes } from '@/components/best-posting-times';
@@ -50,9 +50,12 @@ export default function Home() {
           <div className="container py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Instagram Dashboard</h1>
+                <h1 className="text-3xl font-bold tracking-tight">
+                  Instagram Dashboard
+                </h1>
                 <p className="text-muted-foreground mt-1">
-                  Manage and analyze your Instagram posts with advanced automation rules.
+                  Manage and analyze your Instagram posts with advanced
+                  automation rules.
                 </p>
               </div>
               <AccountSelector />

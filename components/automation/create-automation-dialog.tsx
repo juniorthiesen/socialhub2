@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { AutomationRule, MessageButton } from "@/lib/instagram/types";
+import { useState } from 'react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { AutomationRule, MessageButton } from '@/lib/instagram/types';
 import {
   Dialog,
   DialogContent,
@@ -10,21 +10,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Zap, MessageSquare, Link, Plus, Trash2 } from "lucide-react";
-import { Card } from "@/components/ui/card";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Zap, Plus, Trash2 } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 interface CreateAutomationDialogProps {
   postId?: string;
@@ -32,84 +33,87 @@ interface CreateAutomationDialogProps {
   existingRule?: AutomationRule;
 }
 
-export function CreateAutomationDialog({ 
-  postId, 
+export function CreateAutomationDialog({
+  postId,
   trigger,
-  existingRule 
+  existingRule,
 }: CreateAutomationDialogProps) {
-  const { addAutomationRule, updateAutomationRule, automationRules } = useInstagramStore();
+  const { addAutomationRule, updateAutomationRule, automationRules } =
+    useInstagramStore();
   const [open, setOpen] = useState(false);
   const [useExistingRule, setUseExistingRule] = useState(false);
-  const [selectedRuleId, setSelectedRuleId] = useState<string>("");
+  const [selectedRuleId, setSelectedRuleId] = useState<string>('');
   const [formData, setFormData] = useState<Partial<AutomationRule>>(
     existingRule || {
-      trigger: "",
-      response: "",
-      dmMessage: "",
+      trigger: '',
+      response: '',
+      dmMessage: '',
       dmTemplate: {
-        template_type: "button",
-        text: "",
-        buttons: []
+        template_type: 'button',
+        text: '',
+        buttons: [],
       },
-      actionUrl: "",
+      actionUrl: '',
       isActive: true,
       sendDm: false,
       autoReply: true,
     }
   );
 
-  const globalRules = automationRules.filter(rule => !rule.postId);
+  const globalRules = automationRules.filter((rule) => !rule.postId);
 
   const addButton = () => {
     if (!formData.dmTemplate || formData.dmTemplate.buttons.length >= 3) return;
-    
+
     setFormData({
       ...formData,
       dmTemplate: {
         ...formData.dmTemplate,
         buttons: [
           ...formData.dmTemplate.buttons,
-          { type: 'web_url', title: '', url: '' }
-        ]
-      }
+          { type: 'web_url', title: '', url: '' },
+        ],
+      },
     });
   };
 
   const removeButton = (index: number) => {
     if (!formData.dmTemplate) return;
-    
+
     const newButtons = [...formData.dmTemplate.buttons];
     newButtons.splice(index, 1);
-    
+
     setFormData({
       ...formData,
       dmTemplate: {
         ...formData.dmTemplate,
-        buttons: newButtons
-      }
+        buttons: newButtons,
+      },
     });
   };
 
   const updateButton = (index: number, updates: Partial<MessageButton>) => {
     if (!formData.dmTemplate) return;
-    
+
     const newButtons = [...formData.dmTemplate.buttons];
     newButtons[index] = { ...newButtons[index], ...updates };
-    
+
     setFormData({
       ...formData,
       dmTemplate: {
         ...formData.dmTemplate,
-        buttons: newButtons
-      }
+        buttons: newButtons,
+      },
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (useExistingRule && selectedRuleId && postId) {
-      const selectedRule = automationRules.find(rule => rule.id === selectedRuleId);
+      const selectedRule = automationRules.find(
+        (rule) => rule.id === selectedRuleId
+      );
       if (selectedRule) {
         const newRule: AutomationRule = {
           ...selectedRule,
@@ -124,11 +128,11 @@ export function CreateAutomationDialog({
       const newRule: AutomationRule = {
         id: crypto.randomUUID(),
         ...(postId && { postId }),
-        ...formData as Omit<AutomationRule, 'id'>,
+        ...(formData as Omit<AutomationRule, 'id'>),
       };
       addAutomationRule(newRule);
     }
-    
+
     setOpen(false);
   };
 
@@ -138,20 +142,19 @@ export function CreateAutomationDialog({
         {trigger || (
           <Button variant="outline">
             <Zap className="h-4 w-4 mr-2" />
-            {existingRule ? "Edit Rule" : "Create Rule"}
+            {existingRule ? 'Edit Rule' : 'Create Rule'}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {existingRule ? "Edit Automation Rule" : "Create Automation Rule"}
+            {existingRule ? 'Edit Automation Rule' : 'Create Automation Rule'}
           </DialogTitle>
           <DialogDescription>
-            {postId 
-              ? "Set up automated responses for this specific post"
-              : "Create a global automation rule for all posts"
-            }
+            {postId
+              ? 'Set up automated responses for this specific post'
+              : 'Create a global automation rule for all posts'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -173,7 +176,7 @@ export function CreateAutomationDialog({
                     <SelectValue placeholder="Select a rule" />
                   </SelectTrigger>
                   <SelectContent>
-                    {globalRules.map(rule => (
+                    {globalRules.map((rule) => (
                       <SelectItem key={rule.id} value={rule.id}>
                         {rule.trigger}
                       </SelectItem>
@@ -192,11 +195,13 @@ export function CreateAutomationDialog({
                   id="trigger"
                   placeholder="e.g., price, info, help"
                   value={formData.trigger}
-                  onChange={(e) => setFormData({ ...formData, trigger: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, trigger: e.target.value })
+                  }
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="response">Auto Reply Message</Label>
@@ -204,7 +209,7 @@ export function CreateAutomationDialog({
                     <Switch
                       id="autoReply"
                       checked={formData.autoReply}
-                      onCheckedChange={(checked) => 
+                      onCheckedChange={(checked) =>
                         setFormData({ ...formData, autoReply: checked })
                       }
                     />
@@ -215,7 +220,9 @@ export function CreateAutomationDialog({
                   id="response"
                   placeholder="Enter your automated response..."
                   value={formData.response}
-                  onChange={(e) => setFormData({ ...formData, response: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, response: e.target.value })
+                  }
                   required={formData.autoReply}
                   disabled={!formData.autoReply}
                 />
@@ -228,7 +235,7 @@ export function CreateAutomationDialog({
                     <Switch
                       id="sendDm"
                       checked={formData.sendDm}
-                      onCheckedChange={(checked) => 
+                      onCheckedChange={(checked) =>
                         setFormData({ ...formData, sendDm: checked })
                       }
                     />
@@ -241,16 +248,18 @@ export function CreateAutomationDialog({
                       id="dmTemplate.text"
                       placeholder="Enter your DM message..."
                       value={formData.dmTemplate?.text}
-                      onChange={(e) => setFormData({
-                        ...formData,
-                        dmTemplate: {
-                          ...formData.dmTemplate!,
-                          text: e.target.value
-                        }
-                      })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          dmTemplate: {
+                            ...formData.dmTemplate!,
+                            text: e.target.value,
+                          },
+                        })
+                      }
                       required
                     />
-                    
+
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <Label>Message Buttons</Label>
@@ -265,7 +274,7 @@ export function CreateAutomationDialog({
                           Add Button
                         </Button>
                       </div>
-                      
+
                       <div className="space-y-2">
                         {formData.dmTemplate?.buttons.map((button, index) => (
                           <Card key={index} className="p-4">
@@ -285,14 +294,20 @@ export function CreateAutomationDialog({
                                 <Input
                                   placeholder="Button Title"
                                   value={button.title}
-                                  onChange={(e) => updateButton(index, { title: e.target.value })}
+                                  onChange={(e) =>
+                                    updateButton(index, {
+                                      title: e.target.value,
+                                    })
+                                  }
                                   required
                                 />
                                 <Input
                                   type="url"
                                   placeholder="Button URL"
                                   value={button.url}
-                                  onChange={(e) => updateButton(index, { url: e.target.value })}
+                                  onChange={(e) =>
+                                    updateButton(index, { url: e.target.value })
+                                  }
                                   required
                                 />
                               </div>
@@ -312,7 +327,9 @@ export function CreateAutomationDialog({
                   type="url"
                   placeholder="https://..."
                   value={formData.actionUrl}
-                  onChange={(e) => setFormData({ ...formData, actionUrl: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, actionUrl: e.target.value })
+                  }
                 />
               </div>
             </>
@@ -327,7 +344,11 @@ export function CreateAutomationDialog({
               Cancel
             </Button>
             <Button type="submit">
-              {existingRule ? "Update" : useExistingRule ? "Apply Rule" : "Create"}
+              {existingRule
+                ? 'Update'
+                : useExistingRule
+                  ? 'Apply Rule'
+                  : 'Create'}
             </Button>
           </div>
         </form>

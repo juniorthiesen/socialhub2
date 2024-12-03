@@ -1,27 +1,22 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { Comment } from "@/lib/instagram/types";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, Heart, Send, Loader2, EyeOff, Trash2, Reply } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
-import { QuickResponse } from "./quick-response";
-import { SentimentAnalysis } from "@/lib/openai/sentiment";
-import { SentimentAnalysisView } from "../comments/sentiment-analysis";
+import { useEffect, useState } from 'react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { Comment } from '@/lib/instagram/types';
+import { Card } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
+import { SentimentAnalysis, SentimentAnalyzer } from '@/lib/openai/sentiment';
+import { SentimentAnalysisView } from '../comments/sentiment-analysis';
 
 interface PostCommentsProps {
   postId: string;
   showSentiment?: boolean;
 }
 
-const COMMENTS_PER_PAGE = 10;
-
-export function PostComments({ postId, showSentiment = true }: PostCommentsProps) {
+export function PostComments({
+  postId,
+  showSentiment = true,
+}: PostCommentsProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<SentimentAnalysis | null>(null);
@@ -36,7 +31,7 @@ export function PostComments({ postId, showSentiment = true }: PostCommentsProps
         const response = await api.getComments(postId);
         setComments(response.data || []);
       } catch (error) {
-        console.error("Error fetching comments:", error);
+        console.error('Error fetching comments:', error);
       } finally {
         setIsLoading(false);
       }
@@ -52,9 +47,9 @@ export function PostComments({ postId, showSentiment = true }: PostCommentsProps
     try {
       const analyzer = new SentimentAnalyzer();
       const result = await analyzer.analyzeComments(
-        comments.slice(0, 100).map(c => ({
+        comments.slice(0, 100).map((c) => ({
           text: c.text,
-          username: c.username
+          username: c.username,
         }))
       );
       setAnalysis(result);
@@ -76,7 +71,9 @@ export function PostComments({ postId, showSentiment = true }: PostCommentsProps
   if (!comments.length) {
     return (
       <Card className="p-4">
-        <p className="text-center text-sm text-muted-foreground">No comments yet</p>
+        <p className="text-center text-sm text-muted-foreground">
+          No comments yet
+        </p>
       </Card>
     );
   }
@@ -89,10 +86,11 @@ export function PostComments({ postId, showSentiment = true }: PostCommentsProps
         </div>
 
         {showSentiment && (
-          <SentimentAnalysisView 
-            analysis={analysis} 
-            isLoading={isAnalyzing} 
+          <SentimentAnalysisView
+            analysis={analysis}
+            isLoading={isAnalyzing}
             onAnalyze={handleAnalyzeComments}
+            postId=""
           />
         )}
 

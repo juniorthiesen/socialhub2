@@ -1,20 +1,25 @@
-"use client";
+/* eslint-disable react/no-unescaped-entities */
+'use client';
 
 import { useState } from 'react';
-import { Badge } from "@/components/ui/badge";
-import { Loader2, MessageSquare } from "lucide-react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Badge } from '@/components/ui/badge';
+import { Loader2, MessageSquare } from 'lucide-react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { SentimentAnalysis, analyzeSentiment } from '@/lib/openai/sentiment';
 
 interface SentimentAnalysisProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  analysis?: any;
   postId: string;
+  isLoading?: boolean;
+  onAnalyze?: () => void;
 }
 
 export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
   const { hasOpenAIEnabled, setOpenAIKey } = useInstagramStore();
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState('');
   const [analysis, setAnalysis] = useState<SentimentAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
@@ -34,13 +39,16 @@ export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">AI-Powered Sentiment Analysis</h3>
+          <h3 className="text-lg font-semibold">
+            AI-Powered Sentiment Analysis
+          </h3>
           <p className="text-sm text-muted-foreground">
-            Get powerful insights about your comments using OpenAI's advanced sentiment analysis.
-            To enable this feature, please add your OpenAI API key below.
+            Get powerful insights about your comments using OpenAI's advanced
+            sentiment analysis. To enable this feature, please add your OpenAI
+            API key below.
           </p>
         </div>
-        
+
         <div className="flex space-x-2">
           <Input
             type="password"
@@ -50,12 +58,12 @@ export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
           />
           <Button onClick={() => setOpenAIKey(apiKey)}>Enable</Button>
         </div>
-        
+
         <p className="text-xs text-muted-foreground">
-          Don't have an API key? Get one at{" "}
-          <a 
-            href="https://platform.openai.com/api-keys" 
-            target="_blank" 
+          Don't have an API key? Get one at{' '}
+          <a
+            href="https://platform.openai.com/api-keys"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
           >
@@ -105,7 +113,15 @@ export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
 
       <div className="grid gap-4">
         <div className="flex items-center space-x-2">
-          <Badge variant={analysis.sentiment === 'positive' ? 'default' : analysis.sentiment === 'negative' ? 'destructive' : 'secondary'}>
+          <Badge
+            variant={
+              analysis.sentiment === 'positive'
+                ? 'default'
+                : analysis.sentiment === 'negative'
+                  ? 'destructive'
+                  : 'secondary'
+            }
+          >
             {analysis.sentiment.toUpperCase()}
           </Badge>
           <span className="text-sm text-muted-foreground">
@@ -117,7 +133,9 @@ export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
           <p className="text-sm font-medium">Key Topics:</p>
           <div className="flex flex-wrap gap-2">
             {analysis.topics.map((topic, index) => (
-              <Badge key={index} variant="outline">{topic}</Badge>
+              <Badge key={index} variant="outline">
+                {topic}
+              </Badge>
             ))}
           </div>
         </div>
@@ -132,7 +150,9 @@ export function SentimentAnalysisView({ postId }: SentimentAnalysisProps) {
             <p className="text-sm font-medium">Key Insights:</p>
             <ul className="list-disc list-inside space-y-1">
               {analysis.insights.map((insight, index) => (
-                <li key={index} className="text-sm text-muted-foreground">{insight}</li>
+                <li key={index} className="text-sm text-muted-foreground">
+                  {insight}
+                </li>
               ))}
             </ul>
           </div>

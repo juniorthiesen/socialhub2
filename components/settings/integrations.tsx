@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Card,
@@ -6,16 +6,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Facebook, Settings2 } from "lucide-react";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Facebook, Settings2 } from 'lucide-react';
 
 export function IntegrationSettings() {
   const integrations = [
     {
-      name: "Facebook",
-      status: "Not Connected",
+      name: 'Facebook',
+      status: 'Not Connected',
       icon: Facebook,
       account: null,
     },
@@ -48,7 +48,9 @@ export function IntegrationSettings() {
             </div>
             <div className="flex items-center space-x-2">
               <Badge
-                variant={integration.status === "Connected" ? "default" : "secondary"}
+                variant={
+                  integration.status === 'Connected' ? 'default' : 'secondary'
+                }
               >
                 {integration.status}
               </Badge>

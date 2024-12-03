@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreVertical, EyeOff, Eye, Trash2 } from "lucide-react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { Comment } from "@/lib/instagram/types";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { MoreVertical, EyeOff, Eye, Trash2 } from 'lucide-react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { Comment } from '@/lib/instagram/types';
+import { useToast } from '@/hooks/use-toast';
 
 interface CommentActionsProps {
   comment: Comment;
   postId: string;
 }
 
-export function CommentActions({ comment, postId }: CommentActionsProps) {
+export function CommentActions({ comment }: CommentActionsProps) {
   const { api } = useInstagramStore();
   const { toast } = useToast();
 
@@ -27,15 +27,15 @@ export function CommentActions({ comment, postId }: CommentActionsProps) {
     try {
       await api.hideComment(comment.id);
       toast({
-        title: "Success",
-        description: "Comment visibility updated",
+        title: 'Success',
+        description: 'Comment visibility updated',
       });
     } catch (error) {
-      console.error("Error updating comment visibility:", error);
+      console.error('Error updating comment visibility:', error);
       toast({
-        title: "Error",
-        description: "Failed to update comment visibility",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to update comment visibility',
+        variant: 'destructive',
       });
     }
   };
@@ -46,15 +46,15 @@ export function CommentActions({ comment, postId }: CommentActionsProps) {
     try {
       await api.deleteComment(comment.id);
       toast({
-        title: "Success",
-        description: "Comment deleted successfully",
+        title: 'Success',
+        description: 'Comment deleted successfully',
       });
     } catch (error) {
-      console.error("Error deleting comment:", error);
+      console.error('Error deleting comment:', error);
       toast({
-        title: "Error",
-        description: "Failed to delete comment",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to delete comment',
+        variant: 'destructive',
       });
     }
   };

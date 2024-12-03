@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
   MessageSquare,
@@ -9,45 +8,45 @@ import {
   Users,
   Zap,
   MessagesSquare,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const routes = [
   {
-    label: "Dashboard",
+    label: 'Dashboard',
     icon: LayoutDashboard,
-    href: "/",
-    color: "text-sky-500",
+    href: '/',
+    color: 'text-sky-500',
   },
   {
-    label: "Comments",
+    label: 'Comments',
     icon: MessagesSquare,
-    href: "/comments",
-    color: "text-green-500",
+    href: '/comments',
+    color: 'text-green-500',
   },
   {
-    label: "Automation",
+    label: 'Automation',
     icon: Zap,
-    href: "/automation",
-    color: "text-violet-500",
+    href: '/automation',
+    color: 'text-violet-500',
   },
   {
-    label: "Responses",
+    label: 'Responses',
     icon: MessageSquare,
-    href: "/responses",
-    color: "text-pink-700",
+    href: '/responses',
+    color: 'text-pink-700',
   },
   {
-    label: "Team",
+    label: 'Team',
     icon: Users,
-    href: "/team",
-    color: "text-orange-700",
+    href: '/team',
+    color: 'text-orange-700',
   },
   {
-    label: "Settings",
+    label: 'Settings',
     icon: Settings,
-    href: "/settings",
+    href: '/settings',
   },
 ];
 
@@ -55,20 +54,20 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="hidden md:flex h-full w-64 flex-col border-r bg-card shadow-sm">
-      <div className="flex-1 space-y-1 p-4">
+    <div className="hidden md:flex h-full w-64 flex-col border-r shadow-sm">
+      <div className="flex-1 space-y-1 p-4" style={{ minHeight: '100vh' }}>
         {routes.map((route) => (
           <Link
             key={route.href}
             href={route.href}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:bg-accent",
+              'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:bg-accent',
               pathname === route.href
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:text-foreground"
+                ? 'bg-accent text-accent-foreground'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
-            <route.icon className={cn("h-5 w-5", route.color)} />
+            <route.icon className={cn('h-5 w-5', route.color)} />
             {route.label}
           </Link>
         ))}

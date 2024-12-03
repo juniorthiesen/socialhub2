@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useInstagramStore } from "@/lib/instagram/store";
-import { InstagramPost } from "@/lib/instagram/types";
-import { Card } from "@/components/ui/card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
-import { format } from "date-fns";
-import { PostComments } from "@/components/posts/post-comments";
-import { SentimentAnalysisView } from "@/components/comments/sentiment-analysis";
-import { Loader2, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CreateAutomationDialog } from "@/components/automation/create-automation-dialog";
-import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from 'react';
+import { useInstagramStore } from '@/lib/instagram/store';
+import { InstagramPost } from '@/lib/instagram/types';
+import { Card } from '@/components/ui/card';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import Image from 'next/image';
+import { format } from 'date-fns';
+import { PostComments } from '@/components/posts/post-comments';
+import { SentimentAnalysisView } from '@/components/comments/sentiment-analysis';
+import { Loader2, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CreateAutomationDialog } from '@/components/automation/create-automation-dialog';
+import { Badge } from '@/components/ui/badge';
 
 interface PostDetailsProps {
   postId: string;
@@ -24,7 +24,7 @@ export function PostDetails({ postId }: PostDetailsProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const currentPost = posts.find(p => p.id === postId);
+    const currentPost = posts.find((p) => p.id === postId);
     if (currentPost) {
       setPost(currentPost);
       setLoading(false);
@@ -62,11 +62,9 @@ export function PostDetails({ postId }: PostDetailsProps) {
             </AspectRatio>
             <div className="mt-4 space-y-2">
               <p className="text-sm text-muted-foreground">
-                Posted {format(new Date(post.timestamp), "PPp")}
+                Posted {format(new Date(post.timestamp), 'PPp')}
               </p>
-              {post.caption && (
-                <p className="text-sm">{post.caption}</p>
-              )}
+              {post.caption && <p className="text-sm">{post.caption}</p>}
             </div>
           </Card>
 
@@ -81,7 +79,9 @@ export function PostDetails({ postId }: PostDetailsProps) {
                 <p className="text-sm text-muted-foreground">Comments</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold">{post.engagement_rate.toFixed(2)}%</p>
+                <p className="text-2xl font-bold">
+                  {post.engagement_rate.toFixed(2)}%
+                </p>
                 <p className="text-sm text-muted-foreground">Engagement</p>
               </div>
             </div>
@@ -101,8 +101,12 @@ export function PostDetails({ postId }: PostDetailsProps) {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">Automation</h3>
                 {post.automationRule ? (
-                  <Badge variant={post.automationRule.isActive ? "default" : "secondary"}>
-                    {post.automationRule.isActive ? "Active" : "Inactive"}
+                  <Badge
+                    variant={
+                      post.automationRule.isActive ? 'default' : 'secondary'
+                    }
+                  >
+                    {post.automationRule.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 ) : null}
               </div>
@@ -110,11 +114,11 @@ export function PostDetails({ postId }: PostDetailsProps) {
               {post.automationRule ? (
                 <div className="space-y-2">
                   <p className="text-sm">
-                    <span className="font-medium">Trigger:</span>{" "}
+                    <span className="font-medium">Trigger:</span>{' '}
                     {post.automationRule.trigger}
                   </p>
                   <p className="text-sm">
-                    <span className="font-medium">Action:</span>{" "}
+                    <span className="font-medium">Action:</span>{' '}
                     {post.automationRule.action}
                   </p>
                 </div>

@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlusCircle, Users } from "lucide-react";
-import { TeamMembers } from "@/components/team/members";
-import { TeamStats } from "@/components/team/stats";
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
+import { TeamMembers } from '@/components/team/members';
+import { TeamStats } from '@/components/team/stats';
 
 export default function TeamPage() {
   return (

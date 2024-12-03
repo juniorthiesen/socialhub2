@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Card,
@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Bar,
   BarChart,
@@ -15,9 +15,9 @@ import {
   YAxis,
   Tooltip,
   Cell,
-} from "recharts";
-import { useTheme } from "next-themes";
-import { Clock, BarChart2, Image, Video, Images } from "lucide-react";
+} from 'recharts';
+import { useTheme } from 'next-themes';
+import { Clock, BarChart2, Image, Video, Images } from 'lucide-react';
 
 interface PerformanceMetricsProps {
   metrics: {
@@ -38,19 +38,19 @@ interface PerformanceMetricsProps {
 
 export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
   const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark';
 
   const formatHour = (hour: number) => {
     return `${hour % 12 || 12}${hour < 12 ? 'AM' : 'PM'}`;
   };
 
   const contentTypeIcons = {
-    'IMAGE': Image,
-    'VIDEO': Video,
-    'CAROUSEL_ALBUM': Images,
+    IMAGE: Image,
+    VIDEO: Video,
+    CAROUSEL_ALBUM: Images,
   };
 
-  const bestTimes = metrics.best_posting_times.map(time => ({
+  const bestTimes = metrics.best_posting_times.map((time) => ({
     ...time,
     label: `${time.day} ${formatHour(time.hour)}`,
   }));
@@ -73,13 +73,13 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
               <BarChart data={bestTimes}>
                 <XAxis
                   dataKey="label"
-                  stroke={isDark ? "#888888" : "#666666"}
+                  stroke={isDark ? '#888888' : '#666666'}
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  stroke={isDark ? "#888888" : "#666666"}
+                  stroke={isDark ? '#888888' : '#666666'}
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
@@ -114,10 +114,7 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
                     return null;
                   }}
                 />
-                <Bar
-                  dataKey="engagement"
-                  radius={[4, 4, 0, 0]}
-                >
+                <Bar dataKey="engagement" radius={[4, 4, 0, 0]}>
                   {bestTimes.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
@@ -137,9 +134,7 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
             <BarChart2 className="h-4 w-4" />
             Content Performance
           </CardTitle>
-          <CardDescription>
-            Performance metrics by content type
-          </CardDescription>
+          <CardDescription>Performance metrics by content type</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -156,7 +151,10 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
                     </div>
                     <div>
                       <p className="font-medium">
-                        {type.type === 'CAROUSEL_ALBUM' ? 'Carousel' : type.type.charAt(0) + type.type.slice(1).toLowerCase()}
+                        {type.type === 'CAROUSEL_ALBUM'
+                          ? 'Carousel'
+                          : type.type.charAt(0) +
+                            type.type.slice(1).toLowerCase()}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {type.count} posts
@@ -176,17 +174,13 @@ export function PerformanceMetrics({ metrics }: PerformanceMetricsProps) {
                       <p className="text-sm font-medium">
                         {type.avg_reach.toFixed(1)}%
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        Reach
-                      </p>
+                      <p className="text-xs text-muted-foreground">Reach</p>
                     </div>
                     <div>
                       <p className="text-sm font-medium">
                         {type.avg_saves.toFixed(1)}%
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        Saves
-                      </p>
+                      <p className="text-xs text-muted-foreground">Saves</p>
                     </div>
                   </div>
                 </div>
