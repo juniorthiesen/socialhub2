@@ -42,9 +42,6 @@ export function DashboardHeader() {
           )}
         </div>
       </div>
-      <Button variant="outline" size="icon" onClick={() => router.push('/settings')}>
-        <Settings2 className="h-4 w-4" />
-      </Button>
     </div>
   );
 }

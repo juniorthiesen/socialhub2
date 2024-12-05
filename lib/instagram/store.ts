@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { InstagramPost, InstagramAccount, DateFilter, PostSortType, AutomationRule, InstagramInsights } from './types';
 import { InstagramAPI } from './api';
-import { persist } from 'zustand/middleware';
+import { persist, PersistOptions } from 'zustand/middleware';
 
 interface PaginationState {
   nextPageToken: string | null;
@@ -58,6 +58,15 @@ interface InstagramState {
   openAIKey: string | null;
 }
 
+type InstagramPersist = {
+  accessToken: string | null;
+  account: InstagramAccount | null;
+  dateFilter: DateFilter;
+  sortType: PostSortType;
+  openAIKey: string | null;
+  automationRules: AutomationRule[];
+}
+
 const initialState: InstagramState = {
   api: null,
   loading: false,
@@ -65,7 +74,7 @@ const initialState: InstagramState = {
   posts: [],
   stats: null,
   account: null,
-  openAIKey: null,
+  openAIKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || null,
 };
 
 const DEFAULT_PAGINATION_STATE: PaginationState = {
@@ -75,7 +84,19 @@ const DEFAULT_PAGINATION_STATE: PaginationState = {
   error: null,
 };
 
-export const useInstagramStore = create<InstagramStore>(
+const persistOptions: PersistOptions<InstagramStore, InstagramPersist> = {
+  name: 'instagram-storage',
+  partialize: (state) => ({
+    accessToken: state.accessToken,
+    account: state.account,
+    dateFilter: state.dateFilter,
+    sortType: state.sortType,
+    openAIKey: state.openAIKey,
+    automationRules: state.automationRules,
+  }),
+};
+
+export const useInstagramStore = create<InstagramStore>()(
   persist(
     (set, get) => ({
       accessToken: null,
@@ -232,16 +253,6 @@ export const useInstagramStore = create<InstagramStore>(
         return automationRules.find((rule) => rule.postId === postId);
       },
     }),
-    {
-      name: 'instagram-storage',
-      partialize: (state) => ({
-        accessToken: state.accessToken,
-        account: state.account,
-        dateFilter: state.dateFilter,
-        sortType: state.sortType,
-        openAIKey: state.openAIKey,
-        automationRules: state.automationRules,
-      }),
-    }
+    persistOptions
   )
 );

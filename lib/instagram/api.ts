@@ -284,6 +284,33 @@ export class InstagramAPI {
     }
   }
 
+  async getPost(postId: string): Promise<InstagramPost | null> {
+    try {
+      const fields = 'id,caption,media_type,media_url,permalink,timestamp,comments_count,like_count,thumbnail_url';
+      
+      const response = await this.fetchFromAPI(`${postId}`, { fields });
+      
+      if (!response) {
+        console.warn('Post não encontrado:', postId);
+        return null;
+      }
+
+      const account = await this.getAccount();
+      
+      // Adiciona a taxa de engajamento para o post
+      return {
+        ...response,
+        displayUrl: response.media_type === 'VIDEO' ? response.thumbnail_url : response.media_url,
+        engagement_rate: account.followers_count > 0
+          ? ((response.like_count || 0) + (response.comments_count || 0)) / account.followers_count * 100
+          : 0
+      };
+    } catch (error) {
+      console.error('Erro ao buscar post:', error);
+      return null;
+    }
+  }
+
   async getComments(postId: string, after?: string): Promise<{ data: Comment[], paging: any }> {
     try {
       const fields = 'id,text,username,timestamp,like_count,replies{id,text,username,timestamp,like_count}';

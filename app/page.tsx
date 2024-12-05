@@ -6,7 +6,6 @@ import { EngagementStats } from '@/components/engagement-stats';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PostFilters } from '@/components/post-filters';
-import { AccountSelector } from '@/components/account-selector';
 import { ContentPerformance } from '@/components/content-performance';
 import { BestPostingTimes } from '@/components/best-posting-times';
 import { Card } from '@/components/ui/card';
@@ -46,22 +45,7 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <div className="flex flex-col">
         {/* Header Section */}
-        <div className="border-b">
-          <div className="container py-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight">
-                  Instagram Dashboard
-                </h1>
-                <p className="text-muted-foreground mt-1">
-                  Manage and analyze your Instagram posts with advanced
-                  automation rules.
-                </p>
-              </div>
-              <AccountSelector />
-            </div>
-          </div>
-        </div>
+
 
         {/* Main Content */}
         <div className="container py-6 space-y-8">

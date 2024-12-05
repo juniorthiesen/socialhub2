@@ -94,3 +94,24 @@ export interface FacebookPage {
     id: string;
   };
 }
+
+export interface FacebookPagesResponse {
+  data: {
+    id: string;
+    name: string;
+    access_token: string;
+    instagram_business_account?: {
+      id: string;
+      username: string;
+      profile_picture_url: string;
+      followers_count: number;
+      media_count: number;
+    };
+  }[];
+  paging?: {
+    cursors: {
+      before: string;
+      after: string;
+    };
+  };
+}

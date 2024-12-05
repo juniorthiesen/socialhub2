@@ -10,23 +10,16 @@ export interface SentimentAnalysis {
 }
 
 export class SentimentAnalyzer {
-  private openai: OpenAI | null = null;
+  private openai: OpenAI;
 
-  constructor() {
-    const apiKey = useInstagramStore.getState().openAIKey || process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-    if (apiKey) {
-      this.openai = new OpenAI({
-        apiKey,
-        dangerouslyAllowBrowser: true
-      });
-    }
+  constructor(apiKey: string) {
+    this.openai = new OpenAI({
+      apiKey,
+      dangerouslyAllowBrowser: true
+    });
   }
 
   async analyzeComments(comments: { text: string; username: string }[]): Promise<SentimentAnalysis> {
-    if (!this.openai) {
-      throw new Error('OpenAI API key not configured. Sentiment analysis is disabled.');
-    }
-
     try {
       const prompt = `Analyze these Instagram comments and provide a JSON response with the following structure:
 {
@@ -72,10 +65,14 @@ ${comments.map(c => `@${c.username}: ${c.text}`).join('\n')}`;
   }
 }
 
-export const analyzer = new SentimentAnalyzer();
-
 export async function analyzeSentiment(postId: string): Promise<SentimentAnalysis> {
   const store = useInstagramStore.getState();
+  const { openAIKey } = store;
+
+  if (!openAIKey) {
+    throw new Error('OpenAI API key não configurado. Configure a chave nas configurações.');
+  }
+
   const post = store.posts.find(p => p.id === postId);
   
   if (!post) {
@@ -92,5 +89,16 @@ export async function analyzeSentiment(postId: string): Promise<SentimentAnalysi
     username: comment.username
   }));
 
+  const analyzer = new SentimentAnalyzer(openAIKey);
   return analyzer.analyzeComments(commentData);
+}
+
+export async function testOpenAIKey(apiKey: string): Promise<boolean> {
+  try {
+    const analyzer = new SentimentAnalyzer(apiKey);
+    await analyzer.analyzeComments([{ text: 'Test message', username: 'test' }]);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
